@@ -1,0 +1,11 @@
+{
+    "id": "space_mentioning",
+    "name": "Mention Spaces",
+    "description": "Handle space mention in user's posts.",
+    "keywords": ["humhub", "space", "post"],
+    "version": "1.0",
+    "humhub": {
+        "minVersion": "1.2.0"
+    }
+}
+
