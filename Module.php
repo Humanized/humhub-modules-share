@@ -1,6 +1,6 @@
 <?php
 
-namespace humhub\modules\space_mentioning;
+namespace humhub\modules\share;
 
 class Module extends \humhub\modules\content\components\ContentContainerModule
 {

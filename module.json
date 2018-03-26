@@ -1,8 +1,8 @@
 {
-    "id": "space_mentioning",
-    "name": "Mention Spaces",
-    "description": "Handle space mention in user's posts.",
-    "keywords": ["humhub", "space", "post"],
+    "id": "share",
+    "name": "Share",
+    "description": "Share space's content on spaces.",
+    "keywords": ["humhub", "space", "share"],
     "version": "1.0",
     "humhub": {
         "minVersion": "1.2.0"

@@ -1,23 +1,23 @@
 <?php
 
-namespace humhub\modules\space_mentioning\widgets;
+namespace humhub\modules\share\widgets;
 
 use humhub\modules\content\models\Content;
 
 class WallEntry extends \humhub\modules\content\widgets\WallEntry
 {
-    public $related;
-    public $wallEntryLayout = "@humhub/modules/space_mentioning/widgets/views/wallEntry.php";
+    public $entry;
+    public $wallEntryLayout = "@share/widgets/views/wallEntry.php";
 
     /**
      * @inheritdoc
      */
     public function run()
     {
-        if(!$this->related)
-            return "The original message has been removed";
+        if(!$this->entry)
+            return "The original content has been removed";
 
-        return $this->related->getWallOut([
+        return $this->entry->getWallOut([
             'showFiles' => false,
             'renderControls' => false,
             'renderAddons' => false,
@@ -27,15 +27,9 @@ class WallEntry extends \humhub\modules\content\widgets\WallEntry
 
     public function getWallEntryViewParams()
     {
-        $content = Content::find()->where([
-            'id' => $this->contentObject->related
-        ])->one();
-
-        if($content)
-            $this->related = $content->getPolymorphicRelation();
-
+        $this->entry = $this->contentObject->getEntry();
         $params = parent::getWallEntryViewParams();
-        $params["related"] = $this->related;
+        $params["entry"] = $this->entry;
         return $params;
     }
 
