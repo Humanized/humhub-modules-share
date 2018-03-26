@@ -168,7 +168,7 @@ class ShareEntry extends ContentActiveRecord
         $mentions = array_unique($mentions[1]);
         if(!count($mentions))
             return [];
-        return $this->createFor($content, null, ['guid' => $mentions ]);
+        return ShareEntry::createFor($content, null, ['guid' => $mentions ]);
     }
 
 
