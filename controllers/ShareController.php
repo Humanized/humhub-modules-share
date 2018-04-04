@@ -8,7 +8,6 @@ use humhub\modules\admin\components\Controller;
 
 use humhub\modules\share\models\ShareEntry;
 use humhub\modules\share\models\ShareModalForm;
-use humhub\modules\share\widgets\ShareModal;
 
 /**
  *  Mailing-Lists admin controller
@@ -18,6 +17,18 @@ class ShareController extends Controller
     public $object;
     public $space;
 
+    // get shared entry for user's accessible spaces
+    function getSpacesEntry($object) {
+        $entries = [];
+        foreach(ShareEntry::findFor($object)->all() as $entry) {
+            if(!$entry->content->canRead())
+                continue;
+            $entries[$entry->content->space->id] = $entry;
+        }
+        return $entries;
+    }
+
+    // default view is the "share" modal
     public function actionIndex() {
         $request = Yii::$app->request;
         $model = new ShareModalForm();
@@ -44,8 +55,11 @@ class ShareController extends Controller
         if(!$model->object)
             return "object not found";
 
-        return ShareModal::widget([
+        return $this->renderAjax('@share/views/modal', [
             'model' => $model,
+            'object' => $model->object,
+            'spaces' => $model->allowedSpaces()->all(),
+            'entries' => $this->getSpacesEntry($model->object),
             'message' => $message,
         ]);
     }

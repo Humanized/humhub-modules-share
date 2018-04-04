@@ -52,9 +52,5 @@ class Events extends \yii\base\Object
     {
         ShareEntry::parse($event->sender->content, $event->sender->message, true);
     }
-
-    public static function onCalendarFindItems($event)
-    {
-    }
 }
 

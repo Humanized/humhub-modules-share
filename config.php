@@ -22,10 +22,6 @@ return [
           'callback' => ['humhub\modules\share\Events', 'onPostInsert'] ],
         [ 'class' => Post::className(), 'event' => Post::EVENT_AFTER_UPDATE,
           'callback' => ['humhub\modules\share\Events', 'onPostUpdate'] ],
-
-        /*[ 'class' => '\humhub\modules\calendar\interfaces\CalendarInterface',
-          'event' => 'findItems',
-          'callback' => ['humhub\modules\share\Events', 'onCalendarFindItems'] ],*/
     ],
 ];
 

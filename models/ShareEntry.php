@@ -95,7 +95,6 @@ class ShareEntry extends ContentActiveRecord
         }
     }
 
-
     /**
      *  Create entries for the given content on the given
      *  spaces. User perms are checked, cauz' we are cool
