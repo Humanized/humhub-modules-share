@@ -34,14 +34,14 @@ class ShareController extends Controller
         $model = new ShareModalForm();
         $message = null;
 
-        if($model->load(Yii::$app->request->post())) {
+        if($model->load($request->post())) {
             if(!$model->save())
                 return "could not proceed to action";
 
             if($model->object) {
                 $message = "Items have been shared!";
                 ShareEntry::createFor($model->object, $model->message,
-                    ['id' => $model->spaces ]
+                    ['space.id' => $model->spaces ]
                 );
             }
 
@@ -58,7 +58,7 @@ class ShareController extends Controller
         return $this->renderAjax('@share/views/modal', [
             'model' => $model,
             'object' => $model->object,
-            'spaces' => $model->allowedSpaces()->all(),
+            'spaces' => ShareEntry::availableSpaces($model->object)->all(),
             'entries' => $this->getSpacesEntry($model->object),
             'message' => $message,
         ]);

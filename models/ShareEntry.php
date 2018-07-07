@@ -30,7 +30,6 @@ class ShareEntry extends ContentActiveRecord
      */
     public $wallEntryClass = WallEntry::class;
 
-
     private $_entryContent;
 
     /**
@@ -61,8 +60,22 @@ class ShareEntry extends ContentActiveRecord
 
 
     /**
-     *  Return the related object based on content. If content
-     *  is for a SharedEntry, return entry's target
+     *  @return spaces this Content can be posted to by current user as
+     *  ActiveQuery.
+     */
+    static function availableSpaces($content, $user = null) {
+        if($user == null)
+            $user = Yii::$app->user->identity;
+
+        $spaces = Membership::getUserSpaceQuery($user)->distinct()
+            ->andWhere(['space.status' => Space::STATUS_ENABLED])
+            ->andWhere(['!=', 'space.id', $content->container->id])
+            ;
+        return $spaces;
+    }
+
+    /**
+     *  @return original content (if SharedEntry return target object)
      */
     static function realTarget($content) {
         if($content->object_model == ShareEntry::className())
@@ -113,10 +126,8 @@ class ShareEntry extends ContentActiveRecord
             $message = strip_tags($message);
 
         $user = Yii::$app->user->identity;
-        $spaces = Membership::getUserSpaceQuery($user)->distinct()
-            ->andWhere(['space.status' => Space::STATUS_ENABLED])
-            ->andWhere(['!=', 'id', $content->container->id])
-            ->andWhere($spacesSelector);
+        $spaces = ShareEntry::availableSpaces($content)
+                  ->andWhere($spacesSelector);
 
         // exclude spaces where there is yet an entry
         $exclude = [];

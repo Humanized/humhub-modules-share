@@ -45,21 +45,7 @@ class ShareModalForm extends Model
     {
         if(!$this->validate() || !$this->object)
             return false;
-
         return true;
-    }
-
-    /**
-     *  @return ActiveQuery of spaces accessible to user
-     */
-    public function allowedSpaces($user = null)
-    {
-        if(!$user)
-            $user = Yii::$app->user->identity;
-        return Membership::getUserSpaceQuery($user)->distinct()
-            ->andWhere(['space.status' => Space::STATUS_ENABLED])
-            ->andWhere(['!=', 'id', $this->object->container->id])
-            ;
     }
 }
 

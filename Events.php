@@ -12,13 +12,15 @@ use humhub\modules\share\widgets\ShareLink;
 /**
  *  MentionSpacesEvents
  */
-class Events extends \yii\base\Object
+class Events extends \yii\base\BaseObject
 {
     /**
      *  Add widget to wall entry
      */
     public static function onWallEntryLinksInit($event)
     {
+        $content = $event->sender->object->content;
+
         $event->sender->addWidget(ShareLink::className(),
             array('object' => $event->sender->object->content),
             array('sortOrder' => 20)
